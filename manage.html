@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>จัดการวัสดุ</title>
+</head>
+<body>
+    <header>
+        <div class="logo">Medical Inventory</div>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/add_material">Add Material</a>
+            <a href="/manage_material">Manage Materials</a>
+            <a href="/near_expiry">Near Expiry</a>
+        </nav>
+    </header>
+    <main>
+        <section class="table-section">
+            <h2>Manage Materials</h2>
+            <form method="get" action="/manage_material">
+                <div class="table-controls">
+                    <input type="text" name="search" placeholder="Search materials...">
+                    <select name="status">
+                        <option value="all">All</option>
+                        <option value="active">Active</option>
+                        <option value="expired">Expired</option>
+                    </select>
+                    <button type="submit" class="btn-secondary">Search</button>
+                </div>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Expiry Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamically populate rows -->
+                    {% for item in inventory %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.expiry_date }}</td>
+                        <td>
+                            <button class="btn-edit">Edit</button>
+                            <button class="btn-delete">Delete</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        
+    </main>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/static/style.css">
+        <title>วัสดุใกล้หมดอายุ</title>
+    </head>
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        .table-container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .table th {
+            background-color: #004aad;
+            color: white;
+        }
+        .days-remaining {
+            font-weight: bold;
+        }
+        .alert-expired {
+            color: #ff0000; /* สีแดงสำหรับหมดอายุ */
+        }
+        .alert-warning {
+            color: #ffa500; /* สีส้มสำหรับใกล้หมดอายุ */
+        }
+        .alert-safe {
+            color: #008000; /* สีเขียวสำหรับยังปลอดภัย */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Medical Inventory</div>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/add_material">Add Material</a>
+            <a href="/manage_material">Manage Materials</a>
+            <a href="/near_expiry">Near Expiry</a>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="table-container">
+            <h2 class="text-center mb-4">วัสดุที่ใกล้หมดอายุ</h2>
+            <table class="table table-bordered table-hover text-center">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Expiry Date</th>
+                        <th>Days Remaining</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for material in materials %}
+                    <tr>
+                        <td>{{ material.id }}</td>
+                        <td>{{ material.name }}</td>
+                        <td>{{ material.expiry_date }}</td>
+                        <td class="days-remaining 
+                            {% if (datetime.strptime(material.expiry_date, '%Y-%m-%d') - datetime.now()).days <= 0 %}alert-expired{% elif (datetime.strptime(material.expiry_date, '%Y-%m-%d') - datetime.now()).days <= 7 %}alert-warning{% else %}alert-safe{% endif %}">
+                            {{ (datetime.strptime(material.expiry_date, '%Y-%m-%d') - datetime.now()).days }} days
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
