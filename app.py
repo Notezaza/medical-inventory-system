@@ -17,6 +17,14 @@ class Material(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     expiry_date = db.Column(db.String(100), nullable=False)
 
+# Temporary command for creating database tables
+@app.cli.command('create_tables')
+def create_tables():
+    """Create all database tables."""
+    with app.app_context():
+        db.create_all()
+    print("Tables created successfully!")
+
 # Routes
 @app.route('/')
 def index():
@@ -105,3 +113,6 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
+
+
+
